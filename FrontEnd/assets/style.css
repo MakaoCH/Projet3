@@ -186,3 +186,31 @@ footer nav ul {
 	margin: 2em
 }
 
+button {
+	font-family: 'Syne';
+	font-style: normal;
+	font-weight: 700;
+	padding: 9px 28px 9px 28px;
+	margin : 4em 0.3em;
+	font-size: 16px;
+	line-height: 19px;
+	text-align: center;
+	border-radius: 60px;
+}
+
+#btn-tous {
+	color: white;
+	background-color: #1D6154;
+	border: #1D6154;
+}
+#btn-objets, #btn-appartements, #btn-hotelresto {
+	color:#1D6154 ;
+	background-color: white;
+	border: 1px solid #1D6154;
+}
+
+.filtres {
+	display: flex;
+	justify-content: center;
+}
+
