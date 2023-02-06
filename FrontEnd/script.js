@@ -23,20 +23,21 @@ function genererWorks(works) {
 genererWorks(works);
   
  //Ajout des filtres//
-  
+
  
   const boutonTous = document.querySelector("#btn-tous");
     boutonTous.addEventListener ("click", function () {
     const filtresTous = works.filter(id => id.categoryId !== 0)
     
     document.querySelector(".gallery").innerHTML = "";
-    genererWorks(filtresTous);       
+    genererWorks(filtresTous);  
+
   });  
 
   const boutonObjet = document.querySelector("#btn-objets");
     boutonObjet.addEventListener ("click", function () {
     const filtresObjets = works.filter(id => id.categoryId === 1)   
-  
+
     document.querySelector(".gallery").innerHTML = "";
     genererWorks(filtresObjets);
   });
@@ -58,7 +59,8 @@ genererWorks(works);
     genererWorks(filtresHotelResto);       
   });
     
-   
-//const filtres = fetch ('http://localhost:5678/api/categories')//
- //.then(reponse => reponse.json())//
-  //.then(body => {//
+  //const button = document.getElementById("btn-tous");
+
+  //button.addEventListener("click", function() {
+    //this.classList.toggle("click");
+ // });
