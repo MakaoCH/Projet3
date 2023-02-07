@@ -1,3 +1,6 @@
+ //import {ajoutListenersCat} from "./category.js"
+ 
+ 
  //Ajout des travaux//
 
 const works = await fetch ('http://localhost:5678/api/works').then(reponse => reponse.json());
@@ -18,7 +21,8 @@ function genererWorks(works) {
     fiche.appendChild(images);
     fiche.appendChild(titre);
     }
-  }
+    //ajoutListenersCat();
+    }
 // Premier affichage de la page
 genererWorks(works);
   
