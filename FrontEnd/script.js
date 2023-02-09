@@ -1,70 +1,73 @@
- //import {ajoutListenersCat} from "./category.js"
- 
- 
+
  //Ajout des travaux//
 
-const works = await fetch ('http://localhost:5678/api/works').then(reponse => reponse.json());
+ //Ajout des travaux//
 
-function genererWorks(works) {
-    for (let i = 0; i < works.length; i++) {
+ const works = await fetch ('http://localhost:5678/api/works').then(reponse => reponse.json());
 
-    const fiche = document.createElement("figure");
-    const images = document.createElement ("img");
-    images.src = works[i].imageUrl;
-    images.setAttribute("crossorigin", "anonymous");
-    const titre = document.createElement("p");
-    titre.innerText = works[i].title;
-    const mesProjets =  document.querySelector (".gallery");
-   
-    mesProjets.appendChild(fiche);
-
-    fiche.appendChild(images);
-    fiche.appendChild(titre);
-    }
-    //ajoutListenersCat();
-    }
-// Premier affichage de la page
-genererWorks(works);
-  
- //Ajout des filtres//
-
+ function genererWorks(works) {
+     for (let i = 0; i < works.length; i++) {
  
-  const boutonTous = document.querySelector("#btn-tous");
-    boutonTous.addEventListener ("click", function () {
-    const filtresTous = works.filter(id => id.categoryId !== 0)
+     const fiche = document.createElement("figure");
+     const images = document.createElement ("img");
+     images.src = works[i].imageUrl;
+     images.setAttribute("crossorigin", "anonymous");
+     const titre = document.createElement("p");
+     titre.innerText = works[i].title;
+     const mesProjets =  document.querySelector (".gallery");
     
-    document.querySelector(".gallery").innerHTML = "";
-    genererWorks(filtresTous);  
-
-  });  
-
-  const boutonObjet = document.querySelector("#btn-objets");
-    boutonObjet.addEventListener ("click", function () {
-    const filtresObjets = works.filter(id => id.categoryId === 1)   
-
-    document.querySelector(".gallery").innerHTML = "";
-    genererWorks(filtresObjets);
-  });
-
-
-  const boutonAppt = document.querySelector("#btn-appartements");
-    boutonAppt.addEventListener ("click", function () {
-    const filtresAppt = works.filter(id => id.categoryId === 2)
+     mesProjets.appendChild(fiche);
+ 
+     fiche.appendChild(images);
+     fiche.appendChild(titre);
+     }
+     //ajoutListenersCat();
+     }
+ // Premier affichage de la page
+ genererWorks(works);
    
-    document.querySelector(".gallery").innerHTML = "";
-    genererWorks(filtresAppt);       
-  });
-
-  const boutonHotelResto = document.querySelector("#btn-hotelresto");
-    boutonHotelResto.addEventListener ("click", function () {
-    const filtresHotelResto = works.filter(id => id.categoryId === 3)
+  //Ajout des filtres//
+ 
   
-    document.querySelector(".gallery").innerHTML = "";
-    genererWorks(filtresHotelResto);       
-  });
+   const boutonTous = document.querySelector("#btn-tous");
+     boutonTous.addEventListener ("click", function () {
+     const filtresTous = works.filter(id => id.categoryId !== 0)
+     
+     document.querySelector(".gallery").innerHTML = "";
+     genererWorks(filtresTous);  
+ 
+   });  
+ 
+   const boutonObjet = document.querySelector("#btn-objets");
+     boutonObjet.addEventListener ("click", function () {
+     const filtresObjets = works.filter(id => id.categoryId === 1)   
+ 
+     document.querySelector(".gallery").innerHTML = "";
+     genererWorks(filtresObjets);
+   });
+ 
+ 
+   const boutonAppt = document.querySelector("#btn-appartements");
+     boutonAppt.addEventListener ("click", function () {
+     const filtresAppt = works.filter(id => id.categoryId === 2)
     
-  //const button = document.getElementById("btn-tous");
+     document.querySelector(".gallery").innerHTML = "";
+     genererWorks(filtresAppt);       
+   });
+ 
+   const boutonHotelResto = document.querySelector("#btn-hotelresto");
+     boutonHotelResto.addEventListener ("click", function () {
+     const filtresHotelResto = works.filter(id => id.categoryId === 3)
+   
+     document.querySelector(".gallery").innerHTML = "";
+     genererWorks(filtresHotelResto);       
+   });
 
-  //button.addEventListener("click", function() {
-    //this.classList.toggle("click");
- // });
+  //suppression token
+
+  const logout = document.querySelector(".login");
+  logout.addEventListener("click", function () {
+  window.localStorage.removeItem("token");
+  window.location.href = "login.html";
+   });
+  

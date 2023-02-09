@@ -6,11 +6,13 @@ const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const errorMessage = document.getElementById("error-message");
 
-// gestionnaire d'événement pour le formulaire de connexion
+// Formulaire de connexion
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const email = emailInput.value;
   const password = passwordInput.value;
+  let token = window.localStorage.getItem("token");
+  if (token === null) {
 
   // envoi des données de connexion à l'API
   try {
@@ -22,12 +24,18 @@ form.addEventListener("submit", async (event) => {
       body: JSON.stringify({ email, password }),
     });
     if (!response.ok) {
-      throw new Error("Connexion échouée");
+      throw new Error("Erreur dans l’identifiant ou le mot de passe");
     }
     const data = await response.json();
     console.log("Connexion réussie", data);
+    localStorage.setItem("token", data.token);
     window.location.href = "index.html";
   } catch (error) {
     errorMessage.textContent = error.message;
   }
+}else{
+  token = JSON.parse(token);
+}
 });
+
+

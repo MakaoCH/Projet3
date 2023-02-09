@@ -157,3 +157,14 @@ footer nav ul {
 	text-align: center;
 	color: black;
 }
+#error-message {
+	color: red;
+	margin-bottom: 20px;
+}
+#projets {
+	text-decoration: none;
+	color: black;
+}
+#projets:hover {
+	color: #B1663C;
+}
