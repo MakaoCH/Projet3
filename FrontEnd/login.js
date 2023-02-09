@@ -6,6 +6,7 @@ const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const errorMessage = document.getElementById("error-message");
 
+
 // Formulaire de connexion
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -13,7 +14,7 @@ form.addEventListener("submit", async (event) => {
   const password = passwordInput.value;
   let token = window.localStorage.getItem("token");
   if (token === null) {
-
+  
   // envoi des données de connexion à l'API
   try {
     const response = await fetch("http://localhost:5678/api/users/login", {
@@ -33,9 +34,9 @@ form.addEventListener("submit", async (event) => {
   } catch (error) {
     errorMessage.textContent = error.message;
   }
+
 }else{
   token = JSON.parse(token);
 }
 });
-
 

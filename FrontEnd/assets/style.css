@@ -201,7 +201,7 @@ button {
 	background-color: white;
 	border: 1px solid #1D6154;
 }
-button:hover {
+.filtres button:hover {
 	background-color: #1D6154;
 	color: white;
 }
@@ -219,4 +219,41 @@ button:hover {
 .login:hover {
 	color: #B1663C;
 }
-/* Style pour la modale */
+#logout {
+	display: none;
+}
+#logout.visible-logout {
+	display: block;
+	text-decoration: none;
+	color: black;
+}
+.login {
+	display: block;
+}
+.login.visible-login {
+	display: none;
+}
+.changements.visible {
+	display: block;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+.changements {
+	background-color: black;
+	display: none;
+}
+.changements.visible p {
+	color: white;
+	font-size: 14px;
+	padding-left: 5px;
+}
+.changements button {
+	color: black;
+	font-size: 14px;
+	margin: 11px;
+}
+
+
+

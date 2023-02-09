@@ -1,9 +1,8 @@
 
  //Ajout des travaux//
 
- //Ajout des travaux//
-
  const works = await fetch ('http://localhost:5678/api/works').then(reponse => reponse.json());
+
 
  function genererWorks(works) {
      for (let i = 0; i < works.length; i++) {
@@ -21,7 +20,6 @@
      fiche.appendChild(images);
      fiche.appendChild(titre);
      }
-     //ajoutListenersCat();
      }
  // Premier affichage de la page
  genererWorks(works);
@@ -63,11 +61,35 @@
      genererWorks(filtresHotelResto);       
    });
 
-  //suppression token
+   //changement d'apparence index.html à la connexion
 
-  const logout = document.querySelector(".login");
+   const changementApparence = document.querySelector(".changements")
+   
+   if (localStorage.getItem("token")) {
+      changementApparence.classList.toggle("visible")
+      console.log(changementApparence)
+   }
+
+   const loginLogout = document.querySelector("#logout")
+   
+   if (localStorage.getItem("token")) {
+      loginLogout.classList.toggle("visible-logout")
+   }
+
+   const logoutLogin = document.querySelector(".login")
+   
+   if (localStorage.getItem("token")) {
+      logoutLogin.classList.toggle("visible-login")
+   }
+
+
+  //suppression token à la déconnexion
+ 
+  const logout = document.querySelector("#logout");
   logout.addEventListener("click", function () {
   window.localStorage.removeItem("token");
   window.location.href = "login.html";
    });
+  
+  
   
