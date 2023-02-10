@@ -12,7 +12,7 @@ form.addEventListener("submit", async (event) => {
   event.preventDefault();
   const email = emailInput.value;
   const password = passwordInput.value;
-  let token = window.localStorage.getItem("token");
+  let token = window.sessionStorage.getItem("token");
   if (token === null) {
   
   // envoi des données de connexion à l'API
@@ -29,7 +29,7 @@ form.addEventListener("submit", async (event) => {
     }
     const data = await response.json();
     console.log("Connexion réussie", data);
-    localStorage.setItem("token", data.token);
+    sessionStorage.setItem("token", data.token);
     window.location.href = "index.html";
   } catch (error) {
     errorMessage.textContent = error.message;
