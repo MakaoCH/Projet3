@@ -67,7 +67,7 @@ genererFiltres(filtres)
  
    //changement d'apparence index.html à la connexion
 
-   const changementApparence = document.querySelector(".changements")
+   const changementApparence = document.querySelector(".mode-edition")
    
    if (sessionStorage.getItem("token")) {
       changementApparence.classList.toggle("visible")
@@ -86,6 +86,30 @@ genererFiltres(filtres)
       logoutLogin.classList.toggle("visible-login")
    }
 
+   const btnModifier = document.querySelector(".btn-modifier")
+   
+   if (sessionStorage.getItem("token")) {
+      btnModifier.classList.toggle("visible-btn")
+   }
+
+   const btnDeux = document.querySelector("#btn-deux")
+   
+   if (sessionStorage.getItem("token")) {
+      btnDeux.classList.toggle("visible-btn")
+   }
+
+   const btnTrois = document.querySelector("#btn-trois")
+   
+   if (sessionStorage.getItem("token")) {
+      btnTrois.classList.toggle("visible-btn")
+   }
+   const filtresLogin = document.querySelector(".filtres")
+   
+   if (sessionStorage.getItem("token")) {
+      filtresLogin.classList.toggle("visible-filtres")
+   }
+
+
 
   //suppression token à la déconnexion
  
@@ -95,5 +119,17 @@ genererFiltres(filtres)
   window.location.href = "login.html";
    });
   
-  
+  //modal
+const openModal = function (e) {
+   e.preventDefault()
+   const target = document.querySelector(e.target.getAttribute("data-id"))
+   target.style.display = null
+   target.removeAttribute('aria-hidden')
+   target.setAttribute('aria-modal', 'true')
+}
+
+  document.querySelectorAll('.btn-modifier').forEach(a => {
+   a.addEventListener('click', openModal)
+   
+  })
   
