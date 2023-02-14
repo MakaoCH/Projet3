@@ -312,7 +312,83 @@ figure .btn-modifier {
 	background-color: white;
 	width: 630px;
 	height: 731px;
-
+	border-radius: 2%;
 }
+#titlemodal {
+	font-family: 'Work Sans';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 26px;
+	line-height: 30px;
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
+#ajout-photo {
+	font-family: 'Syne';
+	font-style: normal;
+	font-weight: 700;
+	font-size: 14px;
+	text-decoration: none;
+	color: white;
+	background: #1D6154;
+	border-radius: 60px;
+	padding: 10px 50px;
+}
+.js-close-modal {
+	border: none;
+	border-radius: 0;
+	color: black;
+	font-size: 20px;
+	margin: 0;
+	width: 100%;
+	padding-top: 20px;
+	text-align: end;
+	border-radius: 25%;
+	
+}
+.gallery-modal {
+	width: 80%;
+	height: 60%;
+	border-bottom: 1px solid #B3B3B3;
+	margin-bottom: 38px;
+	padding-bottom: 30px;
+	display: grid;
+	grid-template-columns: 18% 18% 18% 18% 18%;
+  	grid-template-rows: 33% 33% 33%;
+	gap: 10px;
+	
+}
+.gallery-modal img {
+	width: 100%;
+}
+#delete-gallery {
+	margin-top: 30px;
+	color: red;
+}
+.flex-modal {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 90%;
+	width: 80%;
+	margin: auto;
+}
+
+.image-wrapper {
+	position: relative;
+	display: inline-block;
+}
+
+ .delete-button {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	color: white;
+	background-color: black;
+	border-radius: 4px;
+	border: none;
+	padding: 2px 5px;
+}
+
 
 
