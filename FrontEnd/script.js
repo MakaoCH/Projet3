@@ -71,7 +71,6 @@ genererFiltres(filtres)
    
    if (sessionStorage.getItem("token")) {
       changementApparence.classList.toggle("visible")
-      console.log(changementApparence)
    }
 
    const loginLogout = document.querySelector("#logout")
@@ -119,7 +118,7 @@ genererFiltres(filtres)
   window.location.href = "login.html";
    });
   
-  //modal
+  //modal1
 
 let modal = null
 
@@ -152,40 +151,198 @@ const stopPropagation = function (e) {
 }
 
 document.querySelectorAll('.btn-modifier').forEach(a => {
-   a.addEventListener('click', openModal)
-   
+   a.addEventListener('click', openModal) 
 })
 
-//galeries modal
+//modal2
+let modalAjout = null
+
+const openModalDeux = function (e) {
+   e.preventDefault()
+   const target = document.querySelector(e.target.getAttribute("href"))
+   target.style.display = null
+   target.removeAttribute('aria-hidden')
+   target.setAttribute('aria-modal', 'true')
+   modalAjout = target
+   modalAjout.addEventListener("click", closeModalDeux)
+   modalAjout.querySelector(".js-close-modal2").addEventListener("click", closeModalDeux) 
+   modalAjout.querySelector(".js-going-back").addEventListener("click", closeModalDeux) 
+   modalAjout.querySelector(".js-modal-stop").addEventListener("click", stopPropagationDeux) 
+}
+
+const closeModalDeux = function (e) {
+   e.preventDefault()
+   if (modalAjout === null) return
+   modalAjout.style.display = "none"
+   modalAjout.setAttribute('aria-hidden', 'true')
+   modalAjout.removeAttribute('aria-modal')
+   modalAjout.removeEventListener("click", closeModalDeux)
+   modalAjout.querySelector(".js-close-modal2").removeEventListener("click", closeModalDeux) 
+   modalAjout.querySelector(".js-going-back").removeEventListener("click", closeModalDeux) 
+   modalAjout.querySelector(".js-modal-stop").removeEventListener("click", stopPropagationDeux) 
+   modalAjout = null
+}
+
+const stopPropagationDeux = function (e) {
+   e.stopPropagation()
+}
+
+document.querySelectorAll('#ajout-photo').forEach(a => {
+   a.addEventListener('click', openModalDeux) 
+})
+
+
+
+//galeries modal suprresion
+
+const worksUrl = 'http://localhost:5678/api/works';
+const token = sessionStorage.getItem('token');
+
+const deleteImage = async (id) => {
+  const response = await fetch(`${worksUrl}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('La réponse du réseau n\'était pas correcte');
+  }
+};
+
+
+const worksModal = await fetch(worksUrl).then((response) => response.json());
+console.log(worksModal)
+
 async function genererWorksModal(worksModal) {
-   const mesProjetsModal = document.querySelector(".gallery-modal");
-   mesProjetsModal.innerHTML = "";
-   for (let i = 0; i < worksModal.length; i++) {
-     const imageWrapper = document.createElement("div");
-     imageWrapper.classList.add("image-wrapper");
- 
-     const image = document.createElement("img");
-     image.src = worksModal[i].imageUrl;
-     image.setAttribute("crossorigin", "anonymous");
- 
-     const deleteButton = document.createElement("button");
-     deleteButton.innerHTML = '<i class="fa-solid fa-trash-can fa-xs"></i>';
-     deleteButton.classList.add("delete-button");
+  const mesProjetsModal = document.querySelector('.gallery-modal');
+  mesProjetsModal.innerHTML = '';
 
-      
-     deleteButton.addEventListener("click", () => {
-       imageWrapper.remove();
-     });
- 
-     imageWrapper.appendChild(image);
-     imageWrapper.appendChild(deleteButton);
-     mesProjetsModal.appendChild(imageWrapper);
+  for (let i = 0; i < worksModal.length; i++) {
+    const imageWrapper = document.createElement('div');
+    imageWrapper.classList.add('image-wrapper');
 
-   }
- }
- 
- 
- const worksModal = await fetch('http://localhost:5678/api/works').then(response => response.json());
- genererWorksModal(worksModal);
- 
- 
+    const image = document.createElement('img');
+    image.src = worksModal[i].imageUrl;
+    image.setAttribute('crossorigin', 'anonymous');
+
+    const titre = document.createElement('p');
+    titre.innerText = 'éditer';
+
+    const deleteButton = document.createElement('button');
+    deleteButton.innerHTML = '<i class="fa-solid fa-trash-can fa-xs"></i>';
+    deleteButton.classList.add('delete-button');
+    deleteButton.addEventListener('click', async () => {
+      try {
+        await deleteImage(worksModal[i].id);
+        imageWrapper.remove();
+      } catch (error) {
+        console.error('Erreur suppresion image:', error);
+      }
+    });
+
+    const deleteGalleryButton = document.getElementById('delete-gallery');
+    deleteGalleryButton.addEventListener('click', async () => {
+      try {
+        const imageWrappers = document.querySelectorAll('.image-wrapper');
+        for (let j = 0; j < imageWrappers.length; j++) {
+          const id = worksModal[j].id;
+          await deleteImage(id);
+          imageWrappers[j].remove();
+        }
+      } catch (error) {
+        console.error('Erreur suppression de toutes les images:', error);
+      }
+    });
+
+    imageWrapper.appendChild(image);
+    imageWrapper.appendChild(deleteButton);
+    imageWrapper.appendChild(titre);
+    mesProjetsModal.appendChild(imageWrapper);
+  }
+}
+
+genererWorksModal(worksModal);
+
+//galeries moadl ajout
+
+// Récupération de la modal
+const modal2 = document.querySelector('#modal2');
+
+// Création du formulaire
+const form = modal2.querySelector('form');
+
+// Récupération de l'id de l'utilisateur
+const userId = 1;
+
+// Récupération des catégories via l'API
+const getCategories = async () => {
+  try {
+    const response = await fetch('http://localhost:5678/api/categories');
+    const categories = await response.json();
+    // Création du choix en liste des catégories
+    const select = form.querySelector('select[name="category"]');
+    categories.forEach(category => {
+      const option = document.createElement('option');
+      option.setAttribute('value', category.id);
+      option.textContent = category.name;
+      select.appendChild(option);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+getCategories();
+
+// Soumission du formulaire en utilisant la méthode POST avec l'API
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const formData = new FormData(form);
+  
+
+  // Validation des données
+  const image = formData.get('image');
+  const title = formData.get('title');
+  const category = formData.get('category');
+  if (!image || !title || !category) {
+    alert('Veuillez remplir tous les champs requis');
+    return;
+  }
+
+  try {
+    const data = await createWork(title, image, category);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+    alert('Échec de l\'enregistrement du travail');
+  }
+});
+
+const createWork = async (title, imageUrl, categoryId) => {
+  const formData = new FormData();
+  formData.append('title', title);
+  formData.append('image', imageUrl);
+  formData.append('category', categoryId);
+  formData.append('userId', userId);
+
+  try {
+    const response = await fetch(`http://localhost:5678/api/works/`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: formData,
+    });
+    if (!response.ok) {
+      throw new Error('Échec de l\'enregistrement du travail');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Échec de l\'enregistrement du travail');
+  }
+};
+

@@ -49,17 +49,46 @@
 		</div>
 		<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display:none">
 			<div class="modal-wrapper js-modal-stop">
-				<button class="js-close-modal">x</button>
+				<button class="js-close-modal"><i class="fa-solid fa-xmark"></i></button>
 				<div class="flex-modal">
-					<h3 id="titlemodal">Galerie photo</h3>
+					<h3 class="titlemodal">Galerie photo</h3>
 					<div class="gallery-modal">
 
 					</div>
-					<a href="#" id="ajout-photo">Ajouter une photo</a>
-					<p id="delete-gallery">Supprimer la galerie</p>
+					<a href="#modal2" id="ajout-photo">Ajouter une photo</a>
+					<button id="delete-gallery">Supprimer la galerie</button>
 				</div>
 			</div>
 		</aside>
+		
+		<aside id="modal2" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display:none">
+			<div class="modal-wrapper js-modal-stop">
+					<button class="js-going-back"><i class="fa-sharp fa-solid fa-arrow-left"></i></button>
+			  		<button class="js-close-modal2"><i class="fa-solid fa-xmark"></i></button>
+			  <div class="flex-modal">
+				<div class="formulaire-modal">
+				  <h3 class="titlemodal">Ajout photo</h3>
+				  <form method="post" action="/upload-picture" enctype="multipart/form-data" >
+					<div class="image-preview">
+						<label for="image">
+							<i class="fa fa-thin fa-image"></i>	
+						<span>+ Ajouter photo</span>
+						</label>
+						<input type="file" id="image" name="image">
+						<!---<img src="#" alt="" id="before-upload">--->
+						<p>jpg, png : 4mo max</p>
+					</div>
+					<label for="title">Titre</label>
+					<input type="text" id="title" name="title">
+					<label for="category">Catégories</label>
+					<select name="category" id="category"></select>
+					<button type="submit">Valider</button>
+				  </form>
+				</div>
+			  </div>
+			</div>
+		  </aside>
+		  
 		<div class="filtres">
 				
 		</div>
