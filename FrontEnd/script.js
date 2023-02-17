@@ -231,16 +231,20 @@ async function genererWorksModal(worksModal) {
     titre.innerText = 'éditer';
 
     const deleteButton = document.createElement('button');
-    deleteButton.innerHTML = '<i class="fa-solid fa-trash-can fa-xs"></i>';
-    deleteButton.classList.add('delete-button');
-    deleteButton.addEventListener('click', async () => {
-      try {
-        await deleteImage(worksModal[i].id);
-        imageWrapper.remove();
-      } catch (error) {
-        console.error('Erreur suppresion image:', error);
-      }
-    });
+      deleteButton.innerHTML = '<i class="fa-solid fa-trash-can fa-xs"></i>';
+      deleteButton.classList.add('delete-button');
+      deleteButton.addEventListener('click', async () => {
+        try {
+          const index = worksModal.findIndex((element) => element.id === worksModal[i].id);
+          if (index !== -1) {
+            await deleteImage(worksModal[i].id);
+            worksModal.splice(index, 1);
+            imageWrapper.remove();
+          }
+        } catch (error) {
+          console.error('Erreur suppression image :', error);
+        }
+});
 
     const deleteGalleryButton = document.getElementById('delete-gallery');
     deleteGalleryButton.addEventListener('click', async () => {

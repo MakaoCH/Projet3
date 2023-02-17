@@ -65,27 +65,29 @@
 			<div class="modal-wrapper js-modal-stop">
 					<button class="js-going-back"><i class="fa-sharp fa-solid fa-arrow-left"></i></button>
 			  		<button class="js-close-modal2"><i class="fa-solid fa-xmark"></i></button>
-			  <div class="flex-modal">
-				<div class="formulaire-modal">
-				  <h3 class="titlemodal">Ajout photo</h3>
-				  <form method="post" action="/upload-picture" enctype="multipart/form-data" >
-					<div class="image-preview">
-						<label for="image">
-							<i class="fa fa-thin fa-image"></i>	
-						<span>+ Ajouter photo</span>
-						</label>
-						<input type="file" id="image" name="image">
-						<!---<img src="#" alt="" id="before-upload">--->
-						<p>jpg, png : 4mo max</p>
+			  	<div class="flex-modal">
+					<div class="formulaire-modal">
+				  		<h3 class="titlemodal">Ajout photo</h3>
+				 		<form method="post" action="/upload-picture" enctype="multipart/form-data" >
+							<div class="block-modal2">
+								<div class="image-preview">
+									<label for="image">
+									<i class="fa fa-thin fa-image"></i>	
+									<span>+ Ajouter photo</span>
+									</label>
+									<input type="file" id="image" name="image">
+									<!---<img src="#" alt="" id="before-upload">--->
+									<p>jpg, png : 4mo max</p>
+								</div>
+								<label for="title">Titre</label>
+								<input type="text" id="title" name="title">
+								<label for="category">Catégories</label>
+								<select name="category" id="category"></select>
+							</div>
+							<button type="submit">Valider</button>
+				  		</form>
 					</div>
-					<label for="title">Titre</label>
-					<input type="text" id="title" name="title">
-					<label for="category">Catégories</label>
-					<select name="category" id="category"></select>
-					<button type="submit">Valider</button>
-				  </form>
-				</div>
-			  </div>
+			  	</div>
 			</div>
 		  </aside>
 		  
