@@ -40,26 +40,26 @@ function genererFiltres(categories) {
   mesFiltres.appendChild(btnTous);
   btnTous.appendChild(nomBtnTous);
 
-for (let i = 0; i < categories.length; i++) {
+    for (let i = 0; i < categories.length; i++) {
 
-  const btnFiltre = document.createElement("button");
-  const nomBtn = document.createElement("p")
-  nomBtn.innerText = categories[i].name;
-  mesFiltres.appendChild(btnFiltre)
-       
-  btnFiltre.appendChild(nomBtn);  
+        const btnFiltre = document.createElement("button");
+        const nomBtn = document.createElement("p")
+        nomBtn.innerText = categories[i].name;
+        mesFiltres.appendChild(btnFiltre)
+            
+        btnFiltre.appendChild(nomBtn);  
 
-  btnFiltre.addEventListener("click", function() {
-  const categoryId = categories[i].id;
-  const filteredWorks = works.filter(work => work.categoryId === categoryId);
-  genererWorks(filteredWorks);
+        btnFiltre.addEventListener("click", function() {
+        const categoryId = categories[i].id;
+        const filteredWorks = works.filter(work => work.categoryId === categoryId);
+        genererWorks(filteredWorks);
 
-  btnTous.addEventListener ("click", function () {
-  const filtresTous = works.filter(id => id.categoryId !== 0)
-  document.querySelector(".gallery").innerHTML = "";
-  genererWorks(filtresTous);  
-  });  
-  });
+        btnTous.addEventListener ("click", function () {
+        const filtresTous = works.filter(id => id.categoryId !== 0)
+        document.querySelector(".gallery").innerHTML = "";
+        genererWorks(filtresTous);  
+        });  
+        });
 }};
 genererFiltres(filtres)
 
@@ -108,7 +108,7 @@ genererFiltres(filtres)
       filtresLogin.classList.toggle("visible-filtres")
    }
 
-
+   
 
   //suppression token à la déconnexion
  
@@ -118,7 +118,7 @@ genererFiltres(filtres)
   window.location.href = "login.html";
    });
   
-  //modal1
+ //--------------------------Modal1----------------------------------//
 
 let modal = null
 
@@ -131,8 +131,9 @@ const openModal = function (e) {
    modal = target
    modal.addEventListener("click", closeModal)
    modal.querySelector(".js-close-modal").addEventListener("click", closeModal) 
-   modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation) 
-}
+   modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
+} 
+
 
 const closeModal = function (e) {
    e.preventDefault()
@@ -143,6 +144,7 @@ const closeModal = function (e) {
    modal.removeEventListener("click", closeModal)
    modal.querySelector(".js-close-modal").removeEventListener("click", closeModal) 
    modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation) 
+   
    modal = null
 }
 
@@ -154,46 +156,8 @@ document.querySelectorAll('.btn-modifier').forEach(a => {
    a.addEventListener('click', openModal) 
 })
 
-//modal2
-let modalAjout = null
 
-const openModalDeux = function (e) {
-   e.preventDefault()
-   const target = document.querySelector(e.target.getAttribute("href"))
-   target.style.display = null
-   target.removeAttribute('aria-hidden')
-   target.setAttribute('aria-modal', 'true')
-   modalAjout = target
-   modalAjout.addEventListener("click", closeModalDeux)
-   modalAjout.querySelector(".js-close-modal2").addEventListener("click", closeModalDeux) 
-   modalAjout.querySelector(".js-going-back").addEventListener("click", closeModalDeux) 
-   modalAjout.querySelector(".js-modal-stop").addEventListener("click", stopPropagationDeux) 
-}
-
-const closeModalDeux = function (e) {
-   e.preventDefault()
-   if (modalAjout === null) return
-   modalAjout.style.display = "none"
-   modalAjout.setAttribute('aria-hidden', 'true')
-   modalAjout.removeAttribute('aria-modal')
-   modalAjout.removeEventListener("click", closeModalDeux)
-   modalAjout.querySelector(".js-close-modal2").removeEventListener("click", closeModalDeux) 
-   modalAjout.querySelector(".js-going-back").removeEventListener("click", closeModalDeux) 
-   modalAjout.querySelector(".js-modal-stop").removeEventListener("click", stopPropagationDeux) 
-   modalAjout = null
-}
-
-const stopPropagationDeux = function (e) {
-   e.stopPropagation()
-}
-
-document.querySelectorAll('#ajout-photo').forEach(a => {
-   a.addEventListener('click', openModalDeux) 
-})
-
-
-
-//galeries modal suprresion
+//------------------ Galeries modal suprression---------------------//
 
 const worksUrl = 'http://localhost:5678/api/works';
 const token = sessionStorage.getItem('token');
@@ -233,18 +197,20 @@ async function genererWorksModal(worksModal) {
     const deleteButton = document.createElement('button');
       deleteButton.innerHTML = '<i class="fa-solid fa-trash-can fa-xs"></i>';
       deleteButton.classList.add('delete-button');
-      deleteButton.addEventListener('click', async () => {
-        try {
-          const index = worksModal.findIndex((element) => element.id === worksModal[i].id);
-          if (index !== -1) {
-            await deleteImage(worksModal[i].id);
-            worksModal.splice(index, 1);
-            imageWrapper.remove();
-          }
-        } catch (error) {
-          console.error('Erreur suppression image :', error);
+
+      deleteButton.addEventListener('click', async (event) => {
+      event.stopPropagation();
+      try {
+        const index = worksModal.findIndex((element) => element.id === worksModal[i].id);
+        if (index !== -1) {
+          await deleteImage(worksModal[i].id);
+          worksModal.splice(index, 1);
+          imageWrapper.remove();
         }
-});
+      } catch (error) {
+        console.error('Erreur suppression image :', error);
+      }
+    });
 
     const deleteGalleryButton = document.getElementById('delete-gallery');
     deleteGalleryButton.addEventListener('click', async () => {
@@ -269,7 +235,45 @@ async function genererWorksModal(worksModal) {
 
 genererWorksModal(worksModal);
 
-//galeries moadl ajout
+//----------------------------modal2-------------------------------//
+let modalAjout = null
+
+const openModalDeux = function (e) {
+   e.preventDefault()
+   const target = document.querySelector(e.target.getAttribute("href"))
+   target.style.display = null
+   target.removeAttribute('aria-hidden')
+   target.setAttribute('aria-modal', 'true')
+   modalAjout = target
+   modalAjout.addEventListener("click", closeModalDeux)
+   modalAjout.querySelector(".js-close-modal2").addEventListener("click", closeModalDeux) 
+   modalAjout.querySelector(".js-going-back").addEventListener("click", closeModalDeux) 
+   modalAjout.querySelector(".js-modal-stop").addEventListener("click", stopPropagationDeux) 
+}
+
+const closeModalDeux = function (e) {
+   e.preventDefault()
+   if (modalAjout === null) return
+   modalAjout.style.display = "none"
+   modalAjout.setAttribute('aria-hidden', 'true')
+   modalAjout.removeAttribute('aria-modal')
+   modalAjout.removeEventListener("click", closeModalDeux)
+   modalAjout.querySelector(".js-close-modal2").removeEventListener("click", closeModalDeux) 
+   modalAjout.querySelector(".js-going-back").removeEventListener("click", closeModalDeux) 
+   modalAjout.querySelector(".js-modal-stop").removeEventListener("click", stopPropagationDeux) 
+   modalAjout = null
+}
+
+const stopPropagationDeux = function (e) {
+   e.stopPropagation()
+}
+
+document.querySelectorAll('#ajout-photo').forEach(a => {
+   a.addEventListener('click', openModalDeux) 
+})
+
+
+//---------------------galeries moadl ajout--------------------------------------//
 
 // Récupération de la modal
 const modal2 = document.querySelector('#modal2');
@@ -299,11 +303,18 @@ const getCategories = async () => {
 };
 getCategories();
 
+
+// Sélection de l'élément input pour l'image
+const imageInput = document.getElementById('image');
+const imagePreview = document.getElementById('image-modal-preview')
+const textAjoutPhoto = document.getElementById('text-ajout-photo')
+// Écouteur d'événements pour l'image
+imageInput.addEventListener('change', previewPicture);
+
 // Soumission du formulaire en utilisant la méthode POST avec l'API
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   const formData = new FormData(form);
-  
 
   // Validation des données
   const image = formData.get('image');
@@ -322,6 +333,18 @@ form.addEventListener('submit', async (event) => {
     alert('Échec de l\'enregistrement du travail');
   }
 });
+
+// Fonction pour prévisualiser l'image sélectionnée
+function previewPicture(event) {
+  const reader = new FileReader();
+  reader.onload = function(){
+    const output = document.getElementById('image-modal-preview');
+    imagePreview.style.display = 'block';
+    textAjoutPhoto.style.display = 'none';
+    output.src = reader.result;
+  };
+  reader.readAsDataURL(event.target.files[0]);
+};
 
 const createWork = async (title, imageUrl, categoryId) => {
   const formData = new FormData();
@@ -349,4 +372,3 @@ const createWork = async (title, imageUrl, categoryId) => {
     throw new Error('Échec de l\'enregistrement du travail');
   }
 };
-

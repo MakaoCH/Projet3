@@ -71,13 +71,14 @@
 				 		<form method="post" action="/upload-picture" enctype="multipart/form-data" >
 							<div class="block-modal2">
 								<div class="image-preview">
-									<label for="image">
+									<label for="image" id="text-ajout-photo">
 									<i class="fa fa-thin fa-image"></i>	
-									<span>+ Ajouter photo</span>
+									  <span>+ Ajouter photo</span>
+									  <p>jpg, png : 4mo max</p>
 									</label>
-									<input type="file" id="image" name="image">
-									<!---<img src="#" alt="" id="before-upload">--->
-									<p>jpg, png : 4mo max</p>
+									<input type="file" id="image" name="image" onchange="previewPicture(event)" accept=".jpg, .png, .gif" required>
+									<img src="#" alt="" id="image-modal-preview">
+				
 								</div>
 								<label for="title">Titre</label>
 								<input type="text" id="title" name="title">
@@ -86,6 +87,7 @@
 							</div>
 							<button type="submit">Valider</button>
 				  		</form>
+						  
 					</div>
 			  	</div>
 			</div>
