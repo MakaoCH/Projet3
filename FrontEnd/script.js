@@ -308,6 +308,7 @@ getCategories();
 const imageInput = document.getElementById('image');
 const imagePreview = document.getElementById('image-modal-preview')
 const textAjoutPhoto = document.getElementById('text-ajout-photo')
+const buttonValider = document.getElementById('button-valider')
 // Écouteur d'événements pour l'image
 imageInput.addEventListener('change', previewPicture);
 
@@ -341,6 +342,7 @@ function previewPicture(event) {
     const output = document.getElementById('image-modal-preview');
     imagePreview.style.display = 'block';
     textAjoutPhoto.style.display = 'none';
+    buttonValider.style.backgroundColor = '#1D6154'
     output.src = reader.result;
   };
   reader.readAsDataURL(event.target.files[0]);
