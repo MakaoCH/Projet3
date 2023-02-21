@@ -124,7 +124,7 @@ let modal = null
 
 const openModal = function (e) {
    e.preventDefault()
-   const target = document.querySelector(e.target.getAttribute("data-id"))
+   const target = document.querySelector(e.target.getAttribute("href"))
    target.style.display = null
    target.removeAttribute('aria-hidden')
    target.setAttribute('aria-modal', 'true')
@@ -132,20 +132,24 @@ const openModal = function (e) {
    modal.addEventListener("click", closeModal)
    modal.querySelector(".js-close-modal").addEventListener("click", closeModal) 
    modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)
+   
 } 
 
 
+
 const closeModal = function (e) {
-   e.preventDefault()
    if (modal === null) return
-   modal.style.display = "none"
+   e.preventDefault()
+   window.setTimeout(function () {
+    modal.style.display = "none"
+    modal = null
+   }, 500)
    modal.setAttribute('aria-hidden', 'true')
    modal.removeAttribute('aria-modal')
    modal.removeEventListener("click", closeModal)
    modal.querySelector(".js-close-modal").removeEventListener("click", closeModal) 
-   modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation) 
+   modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation)    
    
-   modal = null
 }
 
 const stopPropagation = function (e) {
@@ -175,9 +179,13 @@ const deleteImage = async (id) => {
   }
 };
 
-
 const worksModal = await fetch(worksUrl).then((response) => response.json());
 console.log(worksModal)
+
+const modalParent = document.querySelector('.modal');
+modalParent.addEventListener('click', (event) => {
+  event.stopPropagation();
+});
 
 async function genererWorksModal(worksModal) {
   const mesProjetsModal = document.querySelector('.gallery-modal');
@@ -195,11 +203,11 @@ async function genererWorksModal(worksModal) {
     titre.innerText = 'éditer';
 
     const deleteButton = document.createElement('button');
-      deleteButton.innerHTML = '<i class="fa-solid fa-trash-can fa-xs"></i>';
-      deleteButton.classList.add('delete-button');
+    deleteButton.innerHTML = '<i class="fa-solid fa-trash-can fa-xs"></i>';
+    deleteButton.classList.add('delete-button');
 
-      deleteButton.addEventListener('click', async (event) => {
-      event.stopPropagation();
+    deleteButton.addEventListener('click', async (e) => {
+      e.stopPropagation();
       try {
         const index = worksModal.findIndex((element) => element.id === worksModal[i].id);
         if (index !== -1) {
@@ -235,6 +243,7 @@ async function genererWorksModal(worksModal) {
 
 genererWorksModal(worksModal);
 
+
 //----------------------------modal2-------------------------------//
 let modalAjout = null
 
@@ -252,16 +261,18 @@ const openModalDeux = function (e) {
 }
 
 const closeModalDeux = function (e) {
-   e.preventDefault()
    if (modalAjout === null) return
-   modalAjout.style.display = "none"
+   e.preventDefault()
+   window.setTimeout(function () {
+    modalAjout.style.display = "none"
+    modalAjout = null
+   }, 500)
    modalAjout.setAttribute('aria-hidden', 'true')
    modalAjout.removeAttribute('aria-modal')
    modalAjout.removeEventListener("click", closeModalDeux)
    modalAjout.querySelector(".js-close-modal2").removeEventListener("click", closeModalDeux) 
    modalAjout.querySelector(".js-going-back").removeEventListener("click", closeModalDeux) 
    modalAjout.querySelector(".js-modal-stop").removeEventListener("click", stopPropagationDeux) 
-   modalAjout = null
 }
 
 const stopPropagationDeux = function (e) {
@@ -324,7 +335,7 @@ form.addEventListener('submit', async (event) => {
   if (!image || !title || !category) {
     alert('Veuillez remplir tous les champs requis');
     return;
-  }
+  } 
 
   try {
     const data = await createWork(title, image, category);
@@ -342,10 +353,11 @@ function previewPicture(event) {
     const output = document.getElementById('image-modal-preview');
     imagePreview.style.display = 'block';
     textAjoutPhoto.style.display = 'none';
-    buttonValider.style.backgroundColor = '#1D6154'
+    buttonValider.style.backgroundColor = '#1D6154';
     output.src = reader.result;
   };
   reader.readAsDataURL(event.target.files[0]);
+ 
 };
 
 const createWork = async (title, imageUrl, categoryId) => {
@@ -373,4 +385,10 @@ const createWork = async (title, imageUrl, categoryId) => {
     console.error(error);
     throw new Error('Échec de l\'enregistrement du travail');
   }
+ 
 };
+ // Publier les changements//
+const refresh = document.getElementById('publier');
+      refresh.addEventListener('click', () => {
+      location.reload();
+});
