@@ -141,6 +141,7 @@ document.querySelectorAll('.btn-modifier').forEach(a => {
 
 
 
+
 //------------------ Galeries modal suprression---------------------//
 
 const worksUrl = 'http://localhost:5678/api/works';
@@ -182,10 +183,10 @@ async function genererWorksModal(worksModal) {
     titre.innerText = 'éditer';
 
     if(i === 0) {
-    const fourArrow = document.createElement('button-arrow');
-    fourArrow .innerHTML = '<i class="fa fa-thin fa-arrows-up-down-left-right"></i>';
-    fourArrow.classList.add('fourArrow');
-    imageWrapper.appendChild(fourArrow)
+      const fourArrow = document.createElement('button-arrow');
+      fourArrow .innerHTML = '<i class="fa fa-thin fa-arrows-up-down-left-right"></i>';
+      fourArrow.classList.add('fourArrow');
+      imageWrapper.appendChild(fourArrow)
     }
 
     const deleteButton = document.createElement('button');
@@ -205,7 +206,7 @@ async function genererWorksModal(worksModal) {
 
            // Mise à jour de l'affichage avec les données mises à jour
           genererWorks(updatedWorks);          
-          }
+        }
       } catch (error) {
         console.error('Erreur suppression image :', error);
       }
@@ -235,66 +236,12 @@ async function genererWorksModal(worksModal) {
 genererWorksModal(worksModal);
 
 
-//----------------------------modal2-------------------------------//
-let modalAjout = null
-
-const openModalDeux = function (e) {
-   e.preventDefault()
-   const target = document.querySelector(e.target.getAttribute("href"))
-   target.style.display = null
-   target.removeAttribute('aria-hidden')
-   target.setAttribute('aria-modal', 'true')
-   modalAjout = target
-   modalAjout.addEventListener("click", closeModalDeux)
-   modalAjout.querySelector(".js-close-modal2").addEventListener("click", closeModalDeux) 
-   modalAjout.querySelector(".js-going-back").addEventListener("click", closeModalDeux) 
-   modalAjout.querySelector(".js-modal-stop").addEventListener("click", stopPropagationDeux) 
-}
-
-const closeModalDeux = function (e) {
-   if (modalAjout === null) return
-   e.preventDefault()
-   window.setTimeout(function () {
-    modalAjout.style.display = "none"
-    modalAjout = null
-   }, 500)
-   modalAjout.setAttribute('aria-hidden', 'true')
-   modalAjout.removeAttribute('aria-modal')
-   modalAjout.removeEventListener("click", closeModalDeux)
-   modalAjout.querySelector(".js-close-modal2").removeEventListener("click", closeModalDeux) 
-   modalAjout.querySelector(".js-going-back").removeEventListener("click", closeModalDeux) 
-   modalAjout.querySelector(".js-modal-stop").removeEventListener("click", stopPropagationDeux) 
-
-   form.reset();
-   imagePreviewModal.style.display = 'none';
-   textAjoutPhoto.style.display = 'flex';
-}
-
-const stopPropagationDeux = function (e) {
-   e.stopPropagation()
-}
-
-document.querySelectorAll('#ajout-photo').forEach(a => {
-   a.addEventListener('click', openModalDeux) 
-})
-
-// sélectionner la croix de la deuxième modale
-const closeTwoModal = document.querySelector('#modal2 .js-close-modal2');
-
-// ajouter un événement de clic
-closeTwoModal.addEventListener('click', function() {
-// fermer les deux modales
-const modal1 = document.querySelector('#modal1');
-const modal2 = document.querySelector('#modal2');
-modal1.style.display = 'none';
-modal2.style.display = 'none';
-});
 
 
 //---------------------galeries modal ajout--------------------------------------//
 
 // Récupération de la modal
-const modal2 = document.querySelector('#modal2');
+const modal2 = document.querySelector('#formulaire-modal');
 
 // Création du formulaire
 const form = modal2.querySelector('form');
@@ -340,12 +287,13 @@ form.addEventListener('submit', async (event) => {
     alert('L\'image a été chargée avec succès')
     console.log(data);
     
+ 
     // Réinitialisation du formulaire
     form.reset();
     imagePreviewModal.style.display = 'none';
     textAjoutPhoto.style.display = 'flex';
     buttonValider.style.backgroundColor = '#aaa';
-    
+
   } catch (error) {
     console.error(error);
     alert('Échec de l\'enregistrement du travail');
@@ -386,6 +334,7 @@ function updateButtonValider() {
 }
 
 form.querySelector('input[name="title"]').addEventListener('input', updateButtonValider);
+
 //---------------Création de l'image dans le DOM-------//
 const createWork = async (title, imageUrl, categoryId) => {
   
@@ -419,9 +368,82 @@ const createWork = async (title, imageUrl, categoryId) => {
     console.error(error);
     throw new Error('Échec de l\'enregistrement du travail');
   }
-  
 };
- 
 
 
-  
+//-------------------------changer l'apparence de la modal-----------------------------------//
+
+const closeModalAjout = document.getElementById("close-modal");
+const modalBackdrop = document.getElementById("modal1");
+closeModalAjout.addEventListener("click", function() {
+  resetModal();
+});
+modalBackdrop.addEventListener("click", function() {
+  resetModal();
+});
+
+function resetModal() {
+  const formulaireModal = document.getElementById("formulaire-modal");
+  const buttonHidden = document.getElementById("button-hidden");
+  const deletePicture = document.getElementById("delete-picture");
+  const form = formulaireModal.querySelector("form");
+
+  // réinitialiser le formulaire
+  form.reset();
+  imagePreviewModal.style.display = 'none';
+  textAjoutPhoto.style.display = 'flex';
+
+  // cacher le formulaire et le bouton
+  formulaireModal.classList.add("hidden");
+  buttonHidden.classList.add("hidden");
+
+  // afficher l'image de suppression
+  deletePicture.classList.remove("hidden");
+}
+
+function toggleModal() {
+  const deletePicture = document.getElementById("delete-picture");
+  const formulaireModal = document.getElementById("formulaire-modal");
+  const buttonHidden = document.getElementById("button-hidden");
+
+  if (formulaireModal.classList.contains("hidden")) {
+    // si formulaire-modal est caché, afficher formulaire-modal et button-hidden et cacher delete-picture au click 
+    formulaireModal.classList.remove("hidden");
+    buttonHidden.classList.remove("hidden");
+    deletePicture.classList.add("hidden");
+  } else {
+    // si formulaire-modal est affiché, cacher formulaire-modal et button-hidden et afficher delete-picture
+    formulaireModal.classList.add("hidden");
+    buttonHidden.classList.add("hidden");
+    deletePicture.classList.remove("hidden");
+  }
+}
+
+const ajoutPhoto = document.getElementById("ajout-photo");
+ajoutPhoto.addEventListener("click", toggleModal);
+
+// cacher le bouton buttonHidden par défaut
+const buttonHidden = document.getElementById("button-hidden");
+buttonHidden.classList.add("hidden");
+
+// ajouter un événement pour cacher formulaire-modal et buttonHidden lorsque buttonHidden est cliqué
+buttonHidden.addEventListener("click", function() {
+  const formulaireModal = document.getElementById("formulaire-modal");
+  const buttonHidden = document.getElementById("button-hidden");
+  const deletePicture = document.getElementById("delete-picture");
+  resetModal(); // réinitialiser le formulaire
+  formulaireModal.classList.add("hidden");
+  buttonHidden.classList.add("hidden");
+  deletePicture.classList.remove("hidden");
+});
+
+
+
+
+
+
+
+
+
+
+

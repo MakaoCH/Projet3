@@ -344,8 +344,8 @@ figure .btn-modifier {
 	font-weight: 400;
 	font-size: 26px;
 	line-height: 30px;
-	margin-bottom: 30px;
-	margin-top: 30px;
+	margin-bottom: 40px;
+	margin-top: 60px;
 	text-align: center;
 }
 #ajout-photo {
@@ -363,13 +363,13 @@ figure .btn-modifier {
 	color: black;
 	background-color: white;
 	border: none;
-	position: relative;
+	position: absolute;
 	top: 3%;
 	left: 93%;	
 	font-size: large;
 }
 .gallery-modal {
-	width: 80%;
+	width: 70%;
 	height: 60%;
 	border-bottom: 1px solid #B3B3B3;
 	margin-bottom: 38px;
@@ -392,14 +392,7 @@ figure .btn-modifier {
 	text-decoration: none;
 	border: none;
 }
-.flex-modal {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	height: 90%;
-	width: 80%;
-	margin: auto;
-}
+
 
 .image-wrapper {
 	position: relative;
@@ -471,7 +464,7 @@ figure .btn-modifier {
 	align-items: center;
 	
 }
-.js-going-back {
+#button-hidden {
 	color: black;
 	background-color: white;
 	border: none;
@@ -480,26 +473,16 @@ figure .btn-modifier {
 	top: 3%;
 	left: 3%;
 }
-.js-close-modal2 {
-	color: black;
-	background-color: white;
-	border: none;
-	font-size: large;
-	position: relative;
-	top: 3%;
-	left: 87%;
-}
-#modal2 {
-	background:rgba(0, 0, 0, 0.1)
-}
 
-#modal2 form {
+#formulaire-modal form {
+	width: 70%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin: auto;
 }
 
-#modal2 input {
+#formulaire-modal input {
 	width: 100%;
 	height: 50px;
 	font-size: 1.2em;
@@ -508,6 +491,12 @@ figure .btn-modifier {
 	margin-top: 9px;
 	margin-bottom: 28px;
 	padding: 0;
+}
+.label-container {
+	width: 100%;
+	text-align: left;
+	padding-bottom: 30px;
+	border-bottom: 1px solid #B3B3B3;
 }
 
 #category {
@@ -519,8 +508,9 @@ figure .btn-modifier {
 	margin-bottom: 10px;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	margin-top: 9px;
+	
 }
-.formulaire-modal button {
+#formulaire-modal button {
 	width: 50%;
 	font-family: 'Syne';
 	font-style: normal;
@@ -538,14 +528,22 @@ figure .btn-modifier {
 	font-size: 50px;
 	margin-bottom: 10px;
 }
-.block-modal2 {
-	height: 450px;
-	border-bottom: 1px solid #B3B3B3;
-}
+
 #image-modal-preview {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
 	display: none;
 }
+.modal-delete-picture {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.hidden {
+	display: none;
+  }
+  
 
+  
+ 
