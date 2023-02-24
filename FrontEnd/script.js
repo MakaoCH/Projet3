@@ -1,63 +1,85 @@
-
- //Ajout des travaux//
+// Récupération des données des travaux à partir de l'API locale
 const works = await fetch ('http://localhost:5678/api/works').then(reponse => reponse.json());
 
 async function genererWorks(works) {
+
   const mesProjets = document.querySelector (".gallery");
   mesProjets.innerHTML = "";
 
-    for (let i = 0; i < works.length; i++) {
- 
+  for (let i = 0; i < works.length; i++) {
+
     const fiche = document.createElement("figure");
     const images = document.createElement ("img");
+
     images.src = works[i].imageUrl;
     images.setAttribute("crossorigin", "anonymous");
+
     const titre = document.createElement("p");
     titre.innerText = works[i].title;
-          
+
     mesProjets.appendChild(fiche);
+
     fiche.appendChild(images);
-    fiche.appendChild(titre);     
-    }
-  }    
-// Premier affichage de la page
+    fiche.appendChild(titre);
+  }
+}
+
+// Appel de la fonction "genererWorks" pour afficher les travaux sur la page lors du premier chargement
 genererWorks(works);
 
-//Ajout des filtres//
 
+//----------------------------------------------Ajout des filtres---------------------------------------------//
+
+// Récupération des données des catégories à partir de l'API locale
 const filtres = await fetch ('http://localhost:5678/api/categories').then(reponse => reponse.json());
 
+// Fonction pour générer les filtres de catégorie dans la page
 function genererFiltres(categories) {
 
+  // Création d'un bouton "Tous" pour afficher tous les travaux
   const btnTous = document.createElement("button");
   const nomBtnTous = document.createElement("p");
   nomBtnTous.innerText = "Tous";
+
+  // Sélection de l'élément HTML où les filtres seront affichés
   const mesFiltres = document.querySelector(".filtres");
+
+  // Ajout du bouton "Tous" à la page
   mesFiltres.appendChild(btnTous);
   btnTous.appendChild(nomBtnTous);
 
-    for (let i = 0; i < categories.length; i++) {
+  // Boucle à travers chaque catégorie dans le tableau de catégories récupéré à partir de l'API
+  for (let i = 0; i < categories.length; i++) {
 
-        const btnFiltre = document.createElement("button");
-        const nomBtn = document.createElement("p")
-        nomBtn.innerText = categories[i].name;
-        mesFiltres.appendChild(btnFiltre)
-            
-        btnFiltre.appendChild(nomBtn);  
+    const btnFiltre = document.createElement("button");
+    const nomBtn = document.createElement("p")
+    nomBtn.innerText = categories[i].name;
 
-        btnFiltre.addEventListener("click", function() {
-        const categoryId = categories[i].id;
-        const filteredWorks = works.filter(work => work.categoryId === categoryId);
-        genererWorks(filteredWorks);
+    mesFiltres.appendChild(btnFiltre)          
+    btnFiltre.appendChild(nomBtn);  
+    btnFiltre.addEventListener("click", function() {
 
-        btnTous.addEventListener ("click", function () {
+      // Récupération de l'ID de la catégorie sélectionnée
+      const categoryId = categories[i].id;
+      const filteredWorks = works.filter(work => work.categoryId === categoryId);
+
+      genererWorks(filteredWorks);
+
+      // Ajout d'un écouteur d'événement sur le bouton "Tous" pour réinitialiser l'affichage de la galerie
+      btnTous.addEventListener ("click", function () {
+
         const filtresTous = works.filter(id => id.categoryId !== 0)
         document.querySelector(".gallery").innerHTML = "";
+
         genererWorks(filtresTous);  
-        });  
-        });
-}};
+      });  
+    });
+  }
+}
+
+// Appel de la fonction "genererFiltres" pour afficher les filtres de catégorie sur la page
 genererFiltres(filtres)
+
 
 //changement d'apparence index.html à la connexion
 
@@ -79,39 +101,44 @@ const logout = document.querySelector("#logout");
 
 let modal = null
 
+// Fonction pour ouvrir la modal
 const openModal = function (e) {
-   e.preventDefault()
-   const target = document.querySelector(e.target.getAttribute("href"))
-   target.style.display = null
-   target.removeAttribute('aria-hidden')
-   target.setAttribute('aria-modal', 'true')
-   modal = target
-   modal.addEventListener("click", closeModal)
-   modal.querySelector(".js-close-modal").addEventListener("click", closeModal) 
+   e.preventDefault()  
+   const target = document.querySelector(e.target.getAttribute("href")) 
+   target.style.display = null 
+   target.removeAttribute('aria-hidden')  
+   target.setAttribute('aria-modal', 'true') 
+   modal = target 
+   modal.addEventListener("click", closeModal)  
+   modal.querySelector(".js-close-modal").addEventListener("click", closeModal)  
    modal.querySelector(".js-modal-stop").addEventListener("click", stopPropagation)  
 } 
 
+// Fonction pour fermer la modal
 const closeModal = function (e) {
-   if (modal === null) return
-   e.preventDefault()
+   if (modal === null) return  
+   e.preventDefault() 
    window.setTimeout(function () {
-    modal.style.display = "none"
-    modal = null
-   }, 500)
-   modal.setAttribute('aria-hidden', 'true')
-   modal.removeAttribute('aria-modal')
-   modal.removeEventListener("click", closeModal)
-   modal.querySelector(".js-close-modal").removeEventListener("click", closeModal) 
-   modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation)    
+    modal.style.display = "none"  
+    modal = null  
+   }, 500) 
+   modal.setAttribute('aria-hidden', 'true') 
+   modal.removeAttribute('aria-modal')  
+   modal.removeEventListener("click", closeModal) 
+   modal.querySelector(".js-close-modal").removeEventListener("click", closeModal)  
+   modal.querySelector(".js-modal-stop").removeEventListener("click", stopPropagation)   
 }
 
+// Fonction pour empêcher la propagation du clic sur la modal
 const stopPropagation = function (e) {
-  e.stopPropagation()
+  e.stopPropagation()  // Empêcher la propagation du clic sur la modal
 }
 
+// Ajouter un événement de clic pour chaque bouton "modifier" dans la page
 document.querySelectorAll('.btn-modifier').forEach(a => {
   a.addEventListener('click', openModal) 
 })
+
 
 
 //------------------ Galeries modal suprression---------------------//
@@ -206,7 +233,6 @@ async function genererWorksModal(worksModal) {
 }
 
 genererWorksModal(worksModal);
-
 
 
 //----------------------------modal2-------------------------------//
