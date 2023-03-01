@@ -23,7 +23,6 @@ async function genererWorks(works) {
     fiche.appendChild(titre);
   }
 }
-
 // Appel de la fonction "genererWorks" pour afficher les travaux sur la page lors du premier chargement
 genererWorks(works);
 
@@ -31,24 +30,19 @@ genererWorks(works);
 //----------------------------------------------Ajout des filtres---------------------------------------------//
 
 // Récupération des données des catégories à partir de l'API locale
-const filtres = await fetch ('http://localhost:5678/api/categories').then(reponse => reponse.json());
+const filtres = await fetch ('http://localhost:5678/api/categories').then(reponse => reponse.json())
 
-// Fonction pour générer les filtres de catégorie dans la page
 function genererFiltres(categories) {
 
-  // Création d'un bouton "Tous" pour afficher tous les travaux
   const btnTous = document.createElement("button");
   const nomBtnTous = document.createElement("p");
   nomBtnTous.innerText = "Tous";
 
-  // Sélection de l'élément HTML où les filtres seront affichés
   const mesFiltres = document.querySelector(".filtres");
 
-  // Ajout du bouton "Tous" à la page
   mesFiltres.appendChild(btnTous);
   btnTous.appendChild(nomBtnTous);
 
-  // Boucle à travers chaque catégorie dans le tableau de catégories récupéré à partir de l'API
   for (let i = 0; i < categories.length; i++) {
 
     const btnFiltre = document.createElement("button");
@@ -59,24 +53,19 @@ function genererFiltres(categories) {
     btnFiltre.appendChild(nomBtn);  
     btnFiltre.addEventListener("click", function() {
 
-      // Récupération de l'ID de la catégorie sélectionnée
       const categoryId = categories[i].id;
       const filteredWorks = works.filter(work => work.categoryId === categoryId);
 
       genererWorks(filteredWorks);
 
-      // Ajout d'un écouteur d'événement sur le bouton "Tous" pour réinitialiser l'affichage de la galerie
       btnTous.addEventListener ("click", function () {
-
         const filtresTous = works.filter(id => id.categoryId !== 0)
         document.querySelector(".gallery").innerHTML = "";
-
         genererWorks(filtresTous);  
       });  
     });
   }
 }
-
 // Appel de la fonction "genererFiltres" pour afficher les filtres de catégorie sur la page
 genererFiltres(filtres)
 
@@ -139,12 +128,70 @@ document.querySelectorAll('.btn-modifier').forEach(a => {
   a.addEventListener('click', openModal) 
 })
 
+//-------------------------changer l'apparence de la modal-----------------------------------//
 
+const closeModalAjout = document.getElementById("close-modal");
+const modalBackdrop = document.getElementById("modal1");
 
+  closeModalAjout.addEventListener("click", function() {
+    resetModal();
+});
+
+  modalBackdrop.addEventListener("click", function() {
+  resetModal();
+});
+
+function resetModal() {
+  const formulaireModal = document.getElementById("formulaire-modal");
+  const buttonHidden = document.getElementById("button-hidden");
+  const deletePicture = document.getElementById("delete-picture");
+  const form = formulaireModal.querySelector("form");
+
+  form.reset();
+  imagePreviewModal.style.display = 'none';
+  textAjoutPhoto.style.display = 'flex';
+
+  formulaireModal.classList.add("hidden");
+  buttonHidden.classList.add("hidden");
+  deletePicture.classList.remove("hidden");
+}
+
+function toggleModal() {
+  const deletePicture = document.getElementById("delete-picture");
+  const formulaireModal = document.getElementById("formulaire-modal");
+  const buttonHidden = document.getElementById("button-hidden");
+
+  if (formulaireModal.classList.contains("hidden")) {
+    formulaireModal.classList.remove("hidden");
+    buttonHidden.classList.remove("hidden");
+    deletePicture.classList.add("hidden");
+  } else {
+    formulaireModal.classList.add("hidden");
+    buttonHidden.classList.add("hidden");
+    deletePicture.classList.remove("hidden");
+  }
+}
+
+const ajoutPhoto = document.getElementById("ajout-photo");
+  ajoutPhoto.addEventListener("click", toggleModal);
+
+const buttonHidden = document.getElementById("button-hidden");
+  buttonHidden.classList.add("hidden");
+
+buttonHidden.addEventListener("click", function() {
+  const formulaireModal = document.getElementById("formulaire-modal");
+  const buttonHidden = document.getElementById("button-hidden");
+  const deletePicture = document.getElementById("delete-picture");
+    resetModal(); // réinitialiser le formulaire
+  
+    formulaireModal.classList.add("hidden");
+    buttonHidden.classList.add("hidden");
+    deletePicture.classList.remove("hidden");
+});
 
 //------------------ Galeries modal suprression---------------------//
 
-const worksUrl = 'http://localhost:5678/api/works';
+const worksUrl = 'http://localhost:5678/api/works/';
 const token = sessionStorage.getItem('token');
 
 const deleteImage = async (id) => {
@@ -235,9 +282,6 @@ async function genererWorksModal(worksModal) {
 
 genererWorksModal(worksModal);
 
-
-
-
 //---------------------galeries modal ajout--------------------------------------//
 
 // Récupération de la modal
@@ -268,7 +312,6 @@ const getCategories = async () => {
 };
 getCategories();
 
-
 // Soumission du formulaire en utilisant la méthode POST avec l'API
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -287,7 +330,6 @@ form.addEventListener('submit', async (event) => {
     alert('L\'image a été chargée avec succès')
     console.log(data);
     
- 
     // Réinitialisation du formulaire
     form.reset();
     imagePreviewModal.style.display = 'none';
@@ -306,12 +348,11 @@ const imagePreviewModal = document.getElementById('image-modal-preview')
 const textAjoutPhoto = document.getElementById('text-ajout-photo')
 const buttonValider = document.getElementById('button-valider')
 
-
 // Écouteur d'événements pour l'image
 imageInput.addEventListener('change', previewPicture);
 
 // Fonction pour prévisualiser l'image sélectionnée
-function previewPicture(event) {
+function previewPicture(e) {
   const reader = new FileReader();
   reader.onload = function(){
     const output = document.getElementById('image-modal-preview');
@@ -319,8 +360,9 @@ function previewPicture(event) {
     textAjoutPhoto.style.display = 'none';
     output.src = reader.result;
   };
-  reader.readAsDataURL(event.target.files[0]);
+  reader.readAsDataURL(e.target.files[0]);
 };
+
 //backgroundColor bouton valider lorsque l'image et le titre sont renseignés//
 function updateButtonValider() {
   const title = form.querySelector('input[name="title"]').value;
@@ -352,12 +394,12 @@ const createWork = async (title, imageUrl, categoryId) => {
         'Authorization': `Bearer ${token}`,
       },
       body: formData,
-      
     });
+
     if (!response.ok) {
       throw new Error('Échec de l\'enregistrement du travail');
-      
     }
+
     const data = await response.json();
     const updatedWorksUpload = await fetch('http://localhost:5678/api/works').then(reponse => reponse.json());
     genererWorks(updatedWorksUpload); 
@@ -371,71 +413,6 @@ const createWork = async (title, imageUrl, categoryId) => {
 };
 
 
-//-------------------------changer l'apparence de la modal-----------------------------------//
-
-const closeModalAjout = document.getElementById("close-modal");
-const modalBackdrop = document.getElementById("modal1");
-closeModalAjout.addEventListener("click", function() {
-  resetModal();
-});
-modalBackdrop.addEventListener("click", function() {
-  resetModal();
-});
-
-function resetModal() {
-  const formulaireModal = document.getElementById("formulaire-modal");
-  const buttonHidden = document.getElementById("button-hidden");
-  const deletePicture = document.getElementById("delete-picture");
-  const form = formulaireModal.querySelector("form");
-
-  // réinitialiser le formulaire
-  form.reset();
-  imagePreviewModal.style.display = 'none';
-  textAjoutPhoto.style.display = 'flex';
-
-  // cacher le formulaire et le bouton
-  formulaireModal.classList.add("hidden");
-  buttonHidden.classList.add("hidden");
-
-  // afficher l'image de suppression
-  deletePicture.classList.remove("hidden");
-}
-
-function toggleModal() {
-  const deletePicture = document.getElementById("delete-picture");
-  const formulaireModal = document.getElementById("formulaire-modal");
-  const buttonHidden = document.getElementById("button-hidden");
-
-  if (formulaireModal.classList.contains("hidden")) {
-    // si formulaire-modal est caché, afficher formulaire-modal et button-hidden et cacher delete-picture au click 
-    formulaireModal.classList.remove("hidden");
-    buttonHidden.classList.remove("hidden");
-    deletePicture.classList.add("hidden");
-  } else {
-    // si formulaire-modal est affiché, cacher formulaire-modal et button-hidden et afficher delete-picture
-    formulaireModal.classList.add("hidden");
-    buttonHidden.classList.add("hidden");
-    deletePicture.classList.remove("hidden");
-  }
-}
-
-const ajoutPhoto = document.getElementById("ajout-photo");
-ajoutPhoto.addEventListener("click", toggleModal);
-
-// cacher le bouton buttonHidden par défaut
-const buttonHidden = document.getElementById("button-hidden");
-buttonHidden.classList.add("hidden");
-
-// ajouter un événement pour cacher formulaire-modal et buttonHidden lorsque buttonHidden est cliqué
-buttonHidden.addEventListener("click", function() {
-  const formulaireModal = document.getElementById("formulaire-modal");
-  const buttonHidden = document.getElementById("button-hidden");
-  const deletePicture = document.getElementById("delete-picture");
-  resetModal(); // réinitialiser le formulaire
-  formulaireModal.classList.add("hidden");
-  buttonHidden.classList.add("hidden");
-  deletePicture.classList.remove("hidden");
-});
 
 
 
