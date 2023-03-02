@@ -210,10 +210,6 @@ const deleteImage = async (id) => {
 const worksModal = await fetch(worksUrl).then((response) => response.json());
 console.log(worksModal)
 
-const modalParent = document.querySelector('.modal');
-modalParent.addEventListener('click', () => {
-});
-
 async function genererWorksModal(worksModal) {
   const mesProjetsModal = document.querySelector('.gallery-modal');
   mesProjetsModal.innerHTML = '';
@@ -290,9 +286,8 @@ const form = document.querySelector('#form');
 // Récupération des catégories via l'API
 const getCategories = async () => {
   try {
-    const response = await fetch('http://localhost:5678/api/categories');
-    const categories = await response.json();
-    // Création du choix en liste des catégories
+    const categories = await fetch('http://localhost:5678/api/categories').then(reponse => reponse.json())
+// Création du choix en liste des catégories
     const select = form.querySelector('select[name="category"]');
     categories.forEach(category => {
       const option = document.createElement('option');
@@ -306,7 +301,7 @@ const getCategories = async () => {
 };
 getCategories();
 
-// Soumission du formulaire en utilisant la méthode POST avec l'API
+// Soumission du formulaire 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   const formData = new FormData(form);
