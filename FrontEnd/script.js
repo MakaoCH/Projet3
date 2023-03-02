@@ -284,14 +284,8 @@ genererWorksModal(worksModal);
 
 //---------------------galeries modal ajout--------------------------------------//
 
-// Récupération de la modal
-const modal2 = document.querySelector('#formulaire-modal');
-
-// Création du formulaire
-const form = modal2.querySelector('form');
-
-// Récupération de l'id de l'utilisateur
-const userId = 1;
+// Récupération du formulaire de la modal
+const form = document.querySelector('#form');
 
 // Récupération des catégories via l'API
 const getCategories = async () => {
@@ -384,7 +378,6 @@ const createWork = async (title, imageUrl, categoryId) => {
   formData.append('title', title);
   formData.append('image', imageUrl);
   formData.append('category', categoryId);
-  formData.append('userId', userId);
 
   try {
     const response = await fetch(`http://localhost:5678/api/works/`, {
@@ -411,6 +404,16 @@ const createWork = async (title, imageUrl, categoryId) => {
     throw new Error('Échec de l\'enregistrement du travail');
   }
 };
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -62,14 +62,14 @@
 				</div>				
 				<div id="formulaire-modal" class="hidden">
 					<h3 class="titlemodal">Ajout photo</h3>
-					<form method="post" action="/upload-picture" enctype="multipart/form-data" >
+					<form method="post" action="/upload-picture" enctype="multipart/form-data" id="form">
 						<div class="image-preview">
 							<label for="image" id="text-ajout-photo">
 								<i class="fa fa-thin fa-image"></i>	
 								<span>+ Ajouter photo</span>
 								<p>jpg, png : 4mo max</p>
 							</label>
-								<input type="file" id="image" name="image" change="previewPicture(e)" accept=".jpg, .png, .gif" required>
+								<input type="file" id="image" name="image" change="previewPicture(e)" accept=".jpg, .png, : 4mo max" required>
 								<img src="#" alt="" id="image-modal-preview">
 						</div>
 						<div class="label-container">
